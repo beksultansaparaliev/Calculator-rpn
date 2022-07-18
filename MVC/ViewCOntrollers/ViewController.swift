@@ -11,43 +11,29 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var currentLabel: UILabel!
     @IBOutlet weak var resultsLabel: UILabel!
-
-    var calculator: Calculator!
-
+    
+    private var model : Model!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        calculator = Calculator()
+        model = Model()
         reset()
     }
     
     @IBAction func equalButtonPressed(_ sender: UIButton) {
-        if calculator.validInput() {
-            calculator.equalsPressed()
-            resultsLabel.text = calculator.operationsResult
+        model.doAction()
+        resultsLabel.text = model.rpnResult
+    }
+    
+    @IBAction func numberOrDecimalButtonPressed(_ sender: UIButton) {
+        if sender.tag == 10 {
+            sendToExpression(value: ".")
         } else {
-            let alert = UIAlertController(
-                title: "Данные введены не корректно",
-                message: "Калькулятор не может выполнять данное вычисление",
-                preferredStyle: .alert)
-            alert.addAction(UIAlertAction(
-                title: "OK",
-                style: .default)
-            )
-            self.present(alert, animated: true, completion: nil)
+            sendToExpression(value: String(sender.tag))
         }
     }
     
-    @IBAction func clearButtonPressed(_ sender: UIButton) {
-        reset()
-    }
-    
-    @IBAction func deleteButtonPressed(_ sender: UIButton) {
-        calculator.deletePressed()
-        currentLabel.text = calculator.working
-    }
-
     @IBAction func operationButtonPressed(_ sender: UIButton) {
-        
         var operation = ""
 
         let tag = sender.tag
@@ -64,26 +50,27 @@ class ViewController: UIViewController {
             operation = "%"
         }
         
-        addToWorkings(value: operation)
-    }
-
-    @IBAction func numberOrDecimalButtonPressed(_ sender: UIButton) {
-        
-        if sender.tag == 10 {
-            addToWorkings(value: ".")
-        } else {
-            addToWorkings(value: String(sender.tag))
-        }
+        sendToExpression(value: operation)
     }
     
+    @IBAction func clearButtonPressed(_ sender: UIButton) {
+        reset()
+    }
+    
+    @IBAction func deleteButtonPressed(_ sender: UIButton) {
+        model.deleteLastSymbol()
+        let result = model.displayWorking
+        currentLabel.text = result
+    }
+
     private func reset() {
-        calculator.clearCurrent()
+        model.clearing()
         currentLabel.text = ""
         resultsLabel.text = ""
     }
     
-    private func addToWorkings(value: String) {
-        calculator.addToWorking(value: value)
-        currentLabel.text = calculator.working
+    private func sendToExpression(value: String) {
+        model.addToWorking(value: value)
+        currentLabel.text = model.displayWorking
     }
 }
