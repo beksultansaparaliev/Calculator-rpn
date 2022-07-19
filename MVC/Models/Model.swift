@@ -11,8 +11,8 @@ struct Model {
     
     var rpnResult = ""
     var displayWorking = ""
+    var currentWorking = ""
     
-    private var currentWorking = ""
     private var expression = [String]()
 
     private var rpn: ReversPolishNotation!
@@ -36,6 +36,10 @@ struct Model {
             expression.append(currentWorking)
             currentWorking = ""
             expression.append(value)
+        } else if value == "%" {
+//            let resultOfPercent = (Double(currentWorking) ?? 0) / 100
+//            currentWorking = currentWorking + value
+//            rpnResult = String(resultOfPercent)
         } else {
             currentWorking = currentWorking + value
         }
@@ -54,7 +58,7 @@ struct Model {
         expression = []
     }
     
-    mutating func formatResult(result: Double) -> String {
+    private func formatResult(result: Double) -> String {
         if result.truncatingRemainder(dividingBy: 1) == 0 {
             return String(format: "%.0f", result)
         } else {

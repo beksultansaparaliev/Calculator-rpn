@@ -31,17 +31,6 @@ struct ReversPolishNotation {
         for token in tokenList {
             if let _ = Double(token) {
                 postfixList.append(String(token))
-                
-//            } else if token == "(" {
-//                operationsStack.append(String(token))
-//
-//            } else if token == ")" {
-//                var topToken = operationsStack.popLast()
-//
-//                while topToken != "(" {
-//                    postfixList.append(topToken ?? "")
-//                    topToken = operationsStack.popLast()
-//                }
             } else {
                 while !operationsStack.isEmpty && priority[operationsStack.last ?? ""] ?? 0 >= priority[String(token)] ?? 0 {
                     postfixList.append(operationsStack.removeLast())
