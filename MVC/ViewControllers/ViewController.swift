@@ -56,16 +56,17 @@ class ViewController: UIViewController {
             var operation = ""
 
             let tag = sender.tag
-
-            if tag == 1 {
+            
+            switch tag {
+            case 1:
                 operation = "+"
-            } else if tag == 2 {
+            case 2:
                 operation = "-"
-            } else if tag == 3 {
+            case 3:
                 operation = "*"
-            } else if tag == 4 {
+            case 4:
                 operation = "/"
-            } else {
+            default:
                 operation = "%"
             }
             

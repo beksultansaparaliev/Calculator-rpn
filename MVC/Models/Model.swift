@@ -37,9 +37,7 @@ struct Model {
             currentWorking = ""
             expression.append(value)
         } else if value == "%" {
-//            let resultOfPercent = (Double(currentWorking) ?? 0) / 100
-//            currentWorking = currentWorking + value
-//            rpnResult = String(resultOfPercent)
+            _ = (Double(currentWorking) ?? 0) / 100
         } else {
             currentWorking = currentWorking + value
         }
